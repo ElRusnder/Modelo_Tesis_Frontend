@@ -1,72 +1,74 @@
 /* General App Styles */
 body {
   font-family: 'Arial', sans-serif;
-  background-color: #f4f4f9;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+  background-color: #f9f9f9;
   margin: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  min-height: 100vh; /* Asegura que ocupe toda la pantalla */
+  overflow-y: auto; /* Habilita la barra de desplazamiento vertical */
 }
 
 .App {
-  background-color: #fff;
-  width: 90%;
-  max-width: 800px; /* Reducido el tamaño máximo */
-  padding: 20px; /* Reducción de padding */
-  border-radius: 8px; /* Borde más suave */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra más suave */
-  transition: box-shadow 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  padding: 20px;
 }
 
-.App:hover {
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+.main-content {
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  max-width: 800px;
+  padding: 20px;
+  margin: 20px auto;
 }
 
 .header {
   text-align: center;
-  font-size: 1.8em; /* Tamaño más pequeño */
+  font-size: 2.2em;
   font-weight: bold;
-  margin-bottom: 15px; /* Menor espacio inferior */
   color: #333;
+  margin-bottom: 20px;
   text-transform: uppercase;
 }
 
-.select-container {
+.department-selection {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 15px; /* Menor margen inferior */
+  justify-content: center;
 }
 
 .department-select {
-  padding: 10px; /* Menos padding */
-  font-size: 1em; /* Tamaño de texto más pequeño */
-  width: 200px; /* Reducido el ancho */
-  margin-bottom: 10px; /* Menor espacio entre los elementos */
+  padding: 12px;
+  font-size: 1.1em;
+  width: 250px;
+  margin-bottom: 20px;
   border: 1px solid #ddd;
   border-radius: 5px;
-  background-color: #f9f9f9;
+  background-color: #f3f3f3;
   color: #555;
-  transition: border-color 0.3s ease;
-}
-
-.department-select:focus {
-  outline: none;
-  border-color: #007bff;
-  background-color: #fff;
 }
 
 .submit-btn {
-  padding: 10px 20px; /* Menor padding */
+  padding: 12px 25px;
   background-color: #007bff;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 1em; /* Tamaño de texto más pequeño */
-  width: 200px; /* Reducido el ancho */
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-size: 1.1em;
+  width: 250px;
+  transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+  background-color: #0056b3;
 }
 
 .submit-btn:disabled {
@@ -74,63 +76,71 @@ body {
   cursor: not-allowed;
 }
 
-.submit-btn:hover:enabled {
-  background-color: #0056b3;
-  transform: scale(1.05);
-}
-
 .error-message {
   color: #d9534f;
   text-align: center;
-  margin-top: 10px; /* Menor espacio */
-  font-size: 0.95em; /* Reducido tamaño de fuente */
+  margin-top: 15px;
+  font-size: 1em;
+}
+
+.results {
+  margin-top: 30px;
 }
 
 .prediction-section,
 .graph-section,
-.map-section {
-  margin-top: 25px; /* Menor espacio superior */
-  padding: 15px; /* Menor padding */
+.map-section,
+.analysis-section {
+  margin-top: 30px;
+  padding: 20px;
   border: 1px solid #ddd;
-  border-radius: 8px;
-  background-color: #f9f9f9;
+  border-radius: 10px;
+  background-color: #f3f3f3;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 h2 {
   color: #333;
   text-align: center;
-  margin-bottom: 15px; /* Menor margen inferior */
-  font-size: 1.4em; /* Reducido tamaño de fuente */
+  font-size: 1.5em;
+  margin-bottom: 20px;
 }
 
-img {
-  display: block;
-  margin: 0 auto;
-  max-width: 90%; /* Reducido el tamaño máximo de la imagen */
-  height: auto;
-  border-radius: 8px;
-}
-
+img,
 iframe {
   display: block;
   margin: 0 auto;
-  width: 90%; /* Reducido el tamaño máximo del iframe */
-  border-radius: 8px;
-  border: none;
+  max-width: 100%;
+  border-radius: 10px;
+}
+
+.analysis-section {
+  background-color: #e9f7ef;
+  border: 1px solid #b5e2d8;
+}
+
+.analysis-section h2 {
+  font-size: 1.6em;
+}
+
+.analysis-section p {
+  font-size: 1.1em;
+  color: #555;
+  line-height: 1.5;
+  text-align: justify;
 }
 
 .back-btn {
-  padding: 10px 20px; /* Menor padding */
+  padding: 12px 25px;
   background-color: #f44336;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 1em; /* Tamaño de fuente más pequeño */
-  width: 200px; /* Reducido el ancho */
-  margin-top: 15px; /* Menor margen superior */
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-size: 1.1em;
+  width: 250px;
+  margin-top: 30px;
+  transition: background-color 0.3s ease;
 }
 
 .back-btn:hover {
