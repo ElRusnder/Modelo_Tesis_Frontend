@@ -4,6 +4,8 @@ import './App.css'; // Importar el archivo CSS
 
 function App() {
   const [departamento, setDepartamento] = useState("");
+  const [cultivoRecomendado, setCultivoRecomendado] = useState(null); // Para el cultivo recomendado
+  const [recomendacionRiego, setRecomendacionRiego] = useState(null); // Para la recomendación de riego
   const [prediccion, setPrediccion] = useState(null);
   const [grafico, setGrafico] = useState(null); // Para el gráfico de predicción (mapa de calor)
   const [graficoLinea, setGraficoLinea] = useState(null); // Para el gráfico de línea de progresión de temperatura
@@ -36,6 +38,8 @@ function App() {
       setGrafico(response.data.grafico); // Para el mapa de calor
       setGraficoLinea(response.data.grafico_linea); // Para el gráfico de línea
       setAnalisisTexto(response.data.analisis_texto); // Guardar el análisis generado por GPT-2
+      setCultivoRecomendado(response.data.cultivo_recomendado); // Guardar el cultivo recomendado
+      setRecomendacionRiego(response.data.recomendacion_riego); // Guardar la recomendación de riego
     } catch (error) {
       setError("Hubo un error al obtener la predicción.");
     } finally {
@@ -50,6 +54,8 @@ function App() {
     setGrafico(null);
     setGraficoLinea(null);
     setAnalisisTexto(null); // Limpiar el análisis
+    setCultivoRecomendado(null); // Limpiar el cultivo recomendado
+    setRecomendacionRiego(null); // Limpiar la recomendación de riego
     setError("");
   };
 
@@ -87,6 +93,22 @@ function App() {
                     <div className="prediction-section">
                       <h2>Predicción:</h2>
                       <p>{prediccion.join(', ')}</p>
+                    </div>
+                )}
+
+                {/* Mostrar el cultivo recomendado */}
+                {cultivoRecomendado && (
+                    <div className="cultivo-recomendado-section">
+                      <h2>Cultivo Recomendado:</h2>
+                      <p>{cultivoRecomendado}</p>
+                    </div>
+                )}
+
+                {/* Mostrar la recomendación de riego */}
+                {recomendacionRiego && (
+                    <div className="recomendacion-riego-section">
+                      <h2>Recomendación de Riego:</h2>
+                      <p>{recomendacionRiego}</p>
                     </div>
                 )}
 

@@ -8,6 +8,7 @@ body {
   justify-content: flex-start;
   min-height: 100vh; /* Asegura que ocupe toda la pantalla */
   overflow-y: auto; /* Habilita la barra de desplazamiento vertical */
+  color: #555;
 }
 
 .App {
@@ -20,19 +21,24 @@ body {
 
 .main-content {
   background-color: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
   width: 90%;
   max-width: 800px;
-  padding: 20px;
-  margin: 20px auto;
+  padding: 30px;
+  margin: 30px auto;
+  transition: box-shadow 0.3s ease;
+}
+
+.main-content:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Hover effect to add depth */
 }
 
 .header {
   text-align: center;
-  font-size: 2.2em;
+  font-size: 2.4em;
   font-weight: bold;
-  color: #333;
+  color: #2a2a2a;
   margin-bottom: 20px;
   text-transform: uppercase;
 }
@@ -51,8 +57,14 @@ body {
   margin-bottom: 20px;
   border: 1px solid #ddd;
   border-radius: 5px;
-  background-color: #f3f3f3;
+  background-color: #fafafa;
   color: #555;
+  transition: border 0.3s ease;
+}
+
+.department-select:focus {
+  border-color: #007bff; /* Blue border on focus */
+  outline: none; /* Remove outline */
 }
 
 .submit-btn {
@@ -60,15 +72,16 @@ body {
   background-color: #007bff;
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 6px;
   cursor: pointer;
   font-size: 1.1em;
   width: 250px;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .submit-btn:hover {
   background-color: #0056b3;
+  transform: translateY(-3px); /* Lift effect on hover */
 }
 
 .submit-btn:disabled {
@@ -80,7 +93,7 @@ body {
   color: #d9534f;
   text-align: center;
   margin-top: 15px;
-  font-size: 1em;
+  font-size: 1.1em;
 }
 
 .results {
@@ -92,18 +105,25 @@ body {
 .map-section,
 .analysis-section {
   margin-top: 30px;
-  padding: 20px;
+  padding: 25px;
   border: 1px solid #ddd;
   border-radius: 10px;
-  background-color: #f3f3f3;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.prediction-section h2,
+.graph-section h2,
+.map-section h2,
+.analysis-section h2 {
+  font-size: 1.6em;
+  color: #333;
+  margin-bottom: 20px;
 }
 
 h2 {
-  color: #333;
   text-align: center;
-  font-size: 1.5em;
-  margin-bottom: 20px;
 }
 
 img,
@@ -111,7 +131,7 @@ iframe {
   display: block;
   margin: 0 auto;
   max-width: 100%;
-  border-radius: 10px;
+  border-radius: 12px;
 }
 
 .analysis-section {
@@ -120,13 +140,13 @@ iframe {
 }
 
 .analysis-section h2 {
-  font-size: 1.6em;
+  font-size: 1.7em;
 }
 
 .analysis-section p {
-  font-size: 1.1em;
-  color: #555;
-  line-height: 1.5;
+  font-size: 1.2em;
+  color: #333;
+  line-height: 1.6;
   text-align: justify;
 }
 
@@ -135,15 +155,19 @@ iframe {
   background-color: #f44336;
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 6px;
   cursor: pointer;
   font-size: 1.1em;
   width: 250px;
   margin-top: 30px;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .back-btn:hover {
   background-color: #d32f2f;
-  transform: scale(1.05);
+  transform: scale(1.05); /* Slightly larger on hover */
+}
+
+.back-btn:focus {
+  outline: none; /* Remove outline on focus */
 }
