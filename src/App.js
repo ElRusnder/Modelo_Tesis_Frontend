@@ -4,23 +4,26 @@ import './App.css'; // Importar el archivo CSS
 
 function App() {
   const [departamento, setDepartamento] = useState("");
-  const [cultivoRecomendado, setCultivoRecomendado] = useState(null); // Para el cultivo recomendado
-  const [recomendacionRiego, setRecomendacionRiego] = useState(null); // Para la recomendación de riego
-  const [prediccion, setPrediccion] = useState(null);
+  const [cultivoRecomendado, setCultivoRecomendado] = useState(null); // Cambiar a null
   const [grafico, setGrafico] = useState(null); // Para el gráfico de predicción (mapa de calor)
-  const [graficoLinea, setGraficoLinea] = useState(null); // Para el gráfico de línea de progresión de temperatura
+  const [graficoBarras, setGraficoBarras] = useState(null); // Para el gráfico de barras
   const [analisisTexto, setAnalisisTexto] = useState(null); // Para el análisis de texto generado por GPT-2
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [viewResults, setViewResults] = useState(false); // Nuevo estado para controlar la visualización de los resultados
+
+  const [startYear, setStartYear] = useState(""); // Año de inicio
+  const [startMonth, setStartMonth] = useState(""); // Mes de inicio
+  const [endYear, setEndYear] = useState(""); // Año de finalización
+  const [endMonth, setEndMonth] = useState(""); // Mes de finalización
 
   const handleChange = (e) => {
     setDepartamento(e.target.value);
   };
 
   const handleSubmit = async () => {
-    if (!departamento) {
-      setError("Por favor, selecciona un departamento.");
+    if (!departamento || !startYear || !startMonth || !endYear || !endMonth) {
+      setError("Por favor, completa todos los campos.");
       return;
     }
 
@@ -31,15 +34,16 @@ function App() {
     try {
       const response = await axios.post('http://localhost:8000/api/predict/', {
         departamento,
-        año: 2023,  // Puedes cambiar esto según lo que necesites
+        start_year: startYear, // Enviar el año de inicio
+        start_month: startMonth, // Enviar el mes de inicio
+        end_year: endYear, // Enviar el año de finalización
+        end_month: endMonth, // Enviar el mes de finalización
       });
 
-      setPrediccion(response.data.prediccion);
       setGrafico(response.data.grafico); // Para el mapa de calor
-      setGraficoLinea(response.data.grafico_linea); // Para el gráfico de línea
+      setGraficoBarras(response.data.grafico_barras); // Para el gráfico de barras
       setAnalisisTexto(response.data.analisis_texto); // Guardar el análisis generado por GPT-2
-      setCultivoRecomendado(response.data.cultivo_recomendado); // Guardar el cultivo recomendado
-      setRecomendacionRiego(response.data.recomendacion_riego); // Guardar la recomendación de riego
+      setCultivoRecomendado(response.data.cultivo_recomendado); // Guardar las recomendaciones de cultivo
     } catch (error) {
       setError("Hubo un error al obtener la predicción.");
     } finally {
@@ -50,12 +54,14 @@ function App() {
   const handleBack = () => {
     setViewResults(false); // Ocultar los resultados
     setDepartamento(""); // Limpiar la selección de departamento
-    setPrediccion(null);
+    setStartYear(""); // Limpiar el año de inicio
+    setStartMonth(""); // Limpiar el mes de inicio
+    setEndYear(""); // Limpiar el año de finalización
+    setEndMonth(""); // Limpiar el mes de finalización
     setGrafico(null);
-    setGraficoLinea(null);
+    setGraficoBarras(null); // Limpiar el gráfico de barras
     setAnalisisTexto(null); // Limpiar el análisis
-    setCultivoRecomendado(null); // Limpiar el cultivo recomendado
-    setRecomendacionRiego(null); // Limpiar la recomendación de riego
+    setCultivoRecomendado(null); // Limpiar las recomendaciones de cultivo
     setError("");
   };
 
@@ -76,6 +82,38 @@ function App() {
                   <option value="Puno">Puno</option>
                 </select>
 
+                <h2>Selecciona el Año y Mes de Inicio</h2>
+                <select className="year-month-select" value={startYear} onChange={(e) => setStartYear(e.target.value)}>
+                  <option value="">Año</option>
+                  {/* Años desde 2024 hasta 2032 */}
+                  {[...Array(9)].map((_, index) => {
+                    const year = 2024 + index;
+                    return <option key={year} value={year}>{year}</option>;
+                  })}
+                </select>
+                <select className="year-month-select" value={startMonth} onChange={(e) => setStartMonth(e.target.value)}>
+                  <option value="">Mes</option>
+                  {[...Array(12)].map((_, index) => {
+                    return <option key={index} value={index + 1}>{index + 1}</option>;
+                  })}
+                </select>
+
+                <h2>Selecciona el Año y Mes de Finalización</h2>
+                <select className="year-month-select" value={endYear} onChange={(e) => setEndYear(e.target.value)}>
+                  <option value="">Año</option>
+                  {/* Años desde 2024 hasta 2032 */}
+                  {[...Array(9)].map((_, index) => {
+                    const year = 2024 + index;
+                    return <option key={year} value={year}>{year}</option>;
+                  })}
+                </select>
+                <select className="year-month-select" value={endMonth} onChange={(e) => setEndMonth(e.target.value)}>
+                  <option value="">Mes</option>
+                  {[...Array(12)].map((_, index) => {
+                    return <option key={index} value={index + 1}>{index + 1}</option>;
+                  })}
+                </select>
+
                 <button className="submit-btn" onClick={handleSubmit} disabled={loading}>
                   {loading ? 'Cargando...' : 'Obtener Predicción'}
                 </button>
@@ -88,35 +126,21 @@ function App() {
           {/* Mostrar los resultados si viewResults es verdadero */}
           {viewResults && (
               <div className="results">
-                {/* Mostrar la predicción */}
-                {prediccion && (
-                    <div className="prediction-section">
-                      <h2>Predicción:</h2>
-                      <p>{prediccion.join(', ')}</p>
-                    </div>
-                )}
-
-                {/* Mostrar el cultivo recomendado */}
+                {/* Mostrar las recomendaciones de cultivo */}
                 {cultivoRecomendado && (
                     <div className="cultivo-recomendado-section">
                       <h2>Cultivo Recomendado:</h2>
-                      <p>{cultivoRecomendado}</p>
-                    </div>
-                )}
-
-                {/* Mostrar la recomendación de riego */}
-                {recomendacionRiego && (
-                    <div className="recomendacion-riego-section">
-                      <h2>Recomendación de Riego:</h2>
-                      <p>{recomendacionRiego}</p>
+                      <h3>{cultivoRecomendado.cultivo_recomendado}</h3>
+                      <p><strong>Recomendación de Riego:</strong> {cultivoRecomendado.recomendacion_riego}</p>
+                      <p><strong>Descripción del Cultivo:</strong> {cultivoRecomendado.descripcion_cultivo}</p>
                     </div>
                 )}
 
                 {/* Mostrar el gráfico de la progresión de temperatura */}
-                {graficoLinea && (
+                {graficoBarras && (
                     <div className="graph-section">
-                      <h2>Progresión de Temperatura:</h2>
-                      <img src={`data:image/png;base64,${graficoLinea}`} alt="Gráfico de progresión de temperatura" />
+                      <h2>Predicción de Temperatura:</h2>
+                      <img src={`data:image/png;base64,${graficoBarras}`} alt="Gráfico de predicción de temperatura" />
                     </div>
                 )}
 
